@@ -33,9 +33,3 @@ class ChecklistAdmin(admin.ModelAdmin):
         if not change:
             obj.user = request.user
         return super().save_model(request, obj, form, change)
-
-    # class Media:
-    # js = [
-    #     "smart-selects/admin/js/chainedfk.js",
-    #     "smart-selects/admin/js/bindfields.js",
-    # ]
