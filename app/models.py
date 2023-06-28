@@ -11,19 +11,11 @@ class Pergunta(models.Model):
 
 
 class Resposta(models.Model):
-    resposta = models.CharField(max_length=200)
     pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+    resposta = models.CharField(max_length=200)
 
     def __str__(self) -> str:
         return self.resposta
-
-
-class Questao(models.Model):
-    pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
-    resposta = ChainedForeignKey(Resposta, chained_field="pergunta", chained_model_field="pergunta")
-
-    def __str__(self) -> str:
-        return "{} - {}".format(self.id, str(self.pergunta).upper())
 
 
 class Checklist(models.Model):
@@ -31,3 +23,9 @@ class Checklist(models.Model):
 
     created = models.DateTimeField(editable=False, auto_now_add=True)
     updated = models.DateTimeField(editable=False, auto_now=True)
+
+
+class Questao(models.Model):
+    checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
+    pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+    resposta = ChainedForeignKey(Resposta, chained_field="pergunta", chained_model_field="pergunta")
