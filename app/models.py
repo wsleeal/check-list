@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 from smart_selects.db_fields import ChainedForeignKey
 
 
@@ -24,3 +24,8 @@ class Questao(models.Model):
 
     def __str__(self) -> str:
         return "{} - {}".format(self.id, str(self.pergunta).upper())
+
+
+class Checklist(models.Model):
+    user_str = models.CharField(null=True, blank=True, max_length=200)
+    user_obj = models.ForeignKey(User, on_delete=models.CASCADE)

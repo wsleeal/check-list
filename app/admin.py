@@ -1,18 +1,35 @@
+from collections.abc import Sequence
+from typing import Any
 from django.contrib import admin
+from django.http.request import HttpRequest
 
-from . import models
+
+from .models import *
 
 
 class RespostaAdmin(admin.StackedInline):
-    model = models.Resposta
+    model = Resposta
     extra = 0
 
 
-@admin.register(models.Pergunta)
+@admin.register(Pergunta)
 class PerguntaAdmin(admin.ModelAdmin):
     inlines = [RespostaAdmin]
 
 
-@admin.register(models.Questao)
+@admin.register(Questao)
 class QuestaoAdmin(admin.ModelAdmin):
-    pass
+    def get_queryset(self, request: HttpRequest):
+        return super().get_queryset(request)
+
+
+@admin.register(Checklist)
+class ChecklistAdmin(admin.ModelAdmin):
+    readonly_fields = ["user_str"]
+
+    def save_model(self, request: HttpRequest, obj: Checklist, form, change) -> None:
+        obj.user_str = 1234
+        return super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request: HttpRequest, obj=None) -> Sequence[str]:
+        return super().get_readonly_fields(request, obj)
