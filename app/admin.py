@@ -25,10 +25,11 @@ class QuestaoAdmin(admin.ModelAdmin):
 
 @admin.register(Checklist)
 class ChecklistAdmin(admin.ModelAdmin):
-    readonly_fields = ["user_str"]
+    readonly_fields = ["user_str", "user_obj"]
 
     def save_model(self, request: HttpRequest, obj: Checklist, form, change) -> None:
         obj.user_str = 1234
+        obj.user_obj = request.user
         return super().save_model(request, obj, form, change)
 
     def get_readonly_fields(self, request: HttpRequest, obj=None) -> Sequence[str]:
