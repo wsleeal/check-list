@@ -27,5 +27,7 @@ class Questao(models.Model):
 
 
 class Checklist(models.Model):
-    user_str = models.CharField(max_length=200)
-    user_obj = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    created = models.DateTimeField(editable=False, auto_now_add=True)
+    updated = models.DateTimeField(editable=False, auto_now=True)
