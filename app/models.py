@@ -35,4 +35,7 @@ class Questao(models.Model):
 
 @receiver(signals.post_save, sender=Checklist)
 def populate_checklist(sender, instance: Checklist, **kwargs):
-    pass
+    perguntas = Pergunta.objects.all()
+    for pergunta in perguntas:
+        q = Questao(pergunta=pergunta, checklist=instance)
+        q.save()

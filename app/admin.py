@@ -22,6 +22,7 @@ class QuestaoAdmin(admin.StackedInline):
     inline_classes = ("grp-open",)
     model = Questao
     extra = 0
+    # readonly_fields = ["pergunta"]
 
 
 @admin.register(Checklist)
