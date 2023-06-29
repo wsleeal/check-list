@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from smart_selects.db_fields import ChainedForeignKey
+from django.db.models import signals
+from django.dispatch import receiver
 
 
 class Pergunta(models.Model):
@@ -28,4 +30,9 @@ class Checklist(models.Model):
 class Questao(models.Model):
     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
-    resposta = ChainedForeignKey(Resposta, chained_field="pergunta", chained_model_field="pergunta")
+    resposta = ChainedForeignKey(Resposta, null=True, chained_field="pergunta", chained_model_field="pergunta")
+
+
+@receiver(signals.post_save, sender=Checklist)
+def populate_checklist(sender, instance: Checklist, **kwargs):
+    pass
